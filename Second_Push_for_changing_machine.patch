@@ -1,0 +1,1548 @@
+Index: app/src/main/java/com/example/yoons/room/RecentDeviceFragment.java
+===================================================================
+--- app/src/main/java/com/example/yoons/room/RecentDeviceFragment.java	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ app/src/main/java/com/example/yoons/room/RecentDeviceFragment.java	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
+@@ -1,19 +0,0 @@
+-package com.example.yoons.room;
+-
+-import android.os.Bundle;
+-import android.support.v4.app.Fragment;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-/**
+- * Created by yoons on 28/03/2018.
+- */
+-
+-public class RecentDeviceFragment extends Fragment {
+-    @Override
+-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+-        // Declare your first fragment here
+-        return inflater.inflate(R.layout.recent_device_fragment_layout, container, false);
+-    }
+-}
+Index: app/src/main/java/com/example/yoons/room/Device.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/yoons/room/Device.java	(date 1527239978340)
++++ app/src/main/java/com/example/yoons/room/Device.java	(date 1527239978340)
+@@ -0,0 +1,72 @@
++package com.example.yoons.room;
++/**
++ * Created by yoons on 15/04/2018.
++ */
++
++
++public class Device {
++    String deviceType;
++    String deviceBrand;
++    String deviceVersion;
++    String UID;
++
++    public Device() {}
++
++    public Device(String deviceType, String deviceBrand, String deviceVersion) {
++        this.deviceType = deviceType;
++        this.deviceBrand = deviceBrand;
++        this.deviceVersion = deviceVersion;
++    }
++
++    public Device(String deviceType, String deviceBrand, String deviceVersion, String UID) {
++        this.deviceType = deviceType;
++        this.deviceBrand = deviceBrand;
++        this.deviceVersion = deviceVersion;
++        this.UID = UID;
++    }
++
++    public String getDeviceType() {
++        return deviceType;
++    }
++
++    public void setDeviceType(String deviceType) {
++        this.deviceType = deviceType;
++    }
++
++    public String getDeviceBrand() {
++        return deviceBrand;
++    }
++
++    public void setDeviceBrand(String deviceBrand) {
++        this.deviceBrand = deviceBrand;
++    }
++
++    public String getDeviceVersion() {
++        return deviceVersion;
++    }
++
++    public void setDeviceVersion(String deviceVersion) {
++        this.deviceVersion = deviceVersion;
++    }
++
++    public String getUID() {
++        return UID;
++    }
++
++    public void setUID(String UID) {
++        this.UID = UID;
++    }
++
++    public int getImageUrl(){
++        switch (deviceType) {
++            case "Television":
++                return R.drawable.tvicon;
++            case "AirConditioner":
++            default:
++                return R.drawable.airicon;
++            case "Projector":
++                return R.drawable.projectoricon;
++        }
++    }
++
++}
+Index: app/src/main/java/com/example/yoons/room/RecyclerViewAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/yoons/room/RecyclerViewAdapter.java	(date 1527255069688)
++++ app/src/main/java/com/example/yoons/room/RecyclerViewAdapter.java	(date 1527255069688)
+@@ -0,0 +1,74 @@
++package com.example.yoons.room;
++/**
++ * Created by Juned on 8/9/2017.
++ */
++import android.content.Context;
++import android.support.v7.widget.RecyclerView;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.TextView;
++
++import java.util.List;
++
++public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
++
++    Context context;
++    List<Device> MainImageUploadInfoList;
++
++    public RecyclerViewAdapter(Context context, List<Device> tempList) {
++
++        this.MainImageUploadInfoList = tempList;
++
++        this.context = context;
++    }
++
++    @Override
++    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
++
++        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.device_recyclerview_items_layout, parent, false);
++
++        ViewHolder viewHolder = new ViewHolder(view);
++
++        return viewHolder;
++    }
++
++    @Override
++    public void onBindViewHolder(ViewHolder holder, int position) {
++
++        Device deviceDetails = MainImageUploadInfoList.get(position);
++
++        holder.deviceType.setText(deviceDetails.getDeviceType());
++
++        holder.deviceBrand.setText(deviceDetails.getDeviceBrand());
++
++        //holder.deviceVersion.setText(deviceDetails.getDeviceVersion());
++
++
++
++    }
++
++    @Override
++    public int getItemCount() {
++
++        return MainImageUploadInfoList.size();
++    }
++
++    class ViewHolder extends RecyclerView.ViewHolder {
++
++        public TextView deviceType;
++        public TextView deviceBrand;
++        public TextView deviceVersion;
++
++        public ViewHolder(View itemView) {
++
++            super(itemView);
++
++            deviceType = itemView.findViewById(R.id.deviceTypeInRecyclerView);
++
++            deviceBrand = itemView.findViewById(R.id.deviceBrandInRecyclerView);
++
++            deviceVersion = itemView.findViewById(R.id.deviceVersionInRecyclerView);
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/listview_in_select_device.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/listview_in_select_device.xml	(date 1527256563636)
++++ app/src/main/res/layout/listview_in_select_device.xml	(date 1527256563636)
+@@ -0,0 +1,33 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <!-- TODO: Update blank fragment layout -->
++
++    <TextView
++        android:id="@+id/textView4"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignParentTop="true"
++        android:layout_centerHorizontal="true"
++        android:layout_marginTop="14dp"
++        android:text="Recent Device"
++        android:textAlignment="center"
++        android:textColor="@color/cardview_light_background"
++        android:textSize="18sp"
++        android:textStyle="bold"
++        tools:layout_editor_absoluteX="135dp"
++        tools:layout_editor_absoluteY="16dp" />
++
++    <android.support.v7.widget.RecyclerView
++        android:id="@+id/listViewinSelectDevice"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true"
++        android:layout_alignParentTop="true"
++        android:layout_marginTop="55dp" />
++
++</RelativeLayout>
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ .gitignore	(date 1527160453962)
+@@ -3,6 +3,7 @@
+ /local.properties
+ /.idea/workspace.xml
+ /.idea/libraries
++/google-services.json
+ .DS_Store
+ /build
+ /captures
+Index: app/src/main/res/layout/device_recyclerview_items_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/device_recyclerview_items_layout.xml	(date 1527251908037)
++++ app/src/main/res/layout/device_recyclerview_items_layout.xml	(date 1527251908037)
+@@ -0,0 +1,54 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="65dp"
++    android:paddingBottom="10dp"
++    android:id="@+id/device_recycler_layout">
++
++    <RelativeLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent">
++
++        <ImageView
++            android:id="@+id/deviceTypeInRecyclerView"
++            android:layout_width="61dp"
++            android:layout_height="62dp"
++            android:layout_alignParentLeft="true"
++            android:layout_alignParentStart="true"
++            android:layout_centerVertical="true"
++            android:layout_marginLeft="10dp"
++            android:layout_marginStart="10dp"
++            android:layout_weight="1"
++            android:scaleType="centerCrop" />
++
++        <TextView
++            android:id="@+id/deviceVersionInRecyclerView"
++            android:layout_width="219dp"
++            android:layout_height="29dp"
++            android:layout_alignBottom="@+id/deviceTypeInRecyclerView"
++            android:layout_marginLeft="25dp"
++            android:layout_marginStart="25dp"
++            android:layout_toEndOf="@+id/deviceTypeInRecyclerView"
++            android:layout_toRightOf="@+id/deviceTypeInRecyclerView"
++            android:layout_weight="1"
++            android:gravity="center_vertical"
++            android:text="Card Title"
++            android:textSize="10sp" />
++
++        <TextView
++            android:id="@+id/deviceBrandInRecyclerView"
++            android:layout_width="219dp"
++            android:layout_height="29dp"
++            android:layout_alignParentTop="true"
++            android:layout_marginLeft="14dp"
++            android:layout_marginStart="14dp"
++            android:layout_toEndOf="@+id/deviceTypeInRecyclerView"
++            android:layout_toRightOf="@+id/deviceTypeInRecyclerView"
++            android:layout_weight="1"
++            android:gravity="center_vertical"
++            android:text="Card Title"
++            android:textStyle="bold" />
++
++    </RelativeLayout>
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/yoons/room/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/yoons/room/MainActivity.java	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ app/src/main/java/com/example/yoons/room/MainActivity.java	(date 1527255377830)
+@@ -30,8 +30,8 @@
+ // Adding fragments to a list
+         List<Fragment> fragments = new Vector<>();
+         fragments.add(Fragment.instantiate(this, DeviceSetupFragment.class.getName()));
+-        fragments.add(Fragment.instantiate(this, RecentDeviceFragment.class.getName()));
+-        fragments.add(Fragment.instantiate(this, DeviceStatusFragment.class.getName()));
++        fragments.add(Fragment.instantiate(this, MainRemoteFragment.class.getName()));
++        fragments.add(Fragment.instantiate(this, SelectDeviceFragment.class.getName()));
+ // Attaching fragments into tabLayout with ViewPager
+         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager(), fragments));
+         tabLayout.setupWithViewPager(viewPager);
+Index: app/src/main/res/values/firebase(ignore).xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/firebase(ignore).xml	(date 1522656939500)
++++ app/src/main/res/values/firebase(ignore).xml	(date 1522656939500)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++
++</resources>
+\ No newline at end of file
+Index: app/src/main/java/com/example/yoons/room/SectionPagerAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/yoons/room/SectionPagerAdapter.java	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ app/src/main/java/com/example/yoons/room/SectionPagerAdapter.java	(date 1527254684771)
+@@ -37,7 +37,7 @@
+             default:
+                 return "Recent Device";
+             case 2:
+-                return "Device Status";
++                return "Select Device";
+         }
+     }
+ }
+Index: google-services.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- google-services.json	(date 1523563276008)
++++ google-services.json	(date 1523563276008)
+@@ -0,0 +1,42 @@
++{
++  "project_info": {
++    "project_number": "226440863604",
++    "firebase_url": "https://room-54314.firebaseio.com",
++    "project_id": "room-54314",
++    "storage_bucket": "room-54314.appspot.com"
++  },
++  "client": [
++    {
++      "client_info": {
++        "mobilesdk_app_id": "1:226440863604:android:4806beb0e6aeda7a",
++        "android_client_info": {
++          "package_name": "com.example.yoons.room"
++        }
++      },
++      "oauth_client": [
++        {
++          "client_id": "226440863604-feb6ivmh3iflt62r77tqke4htq5aqjbr.apps.googleusercontent.com",
++          "client_type": 3
++        }
++      ],
++      "api_key": [
++        {
++          "current_key": "AIzaSyAhMhuSlmZ4hY1rmfxn3uJBPJmGSkZp41s"
++        }
++      ],
++      "services": {
++        "analytics_service": {
++          "status": 1
++        },
++        "appinvite_service": {
++          "status": 1,
++          "other_platform_oauth_client": []
++        },
++        "ads_service": {
++          "status": 2
++        }
++      }
++    }
++  ],
++  "configuration_version": "1"
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/yoons/room/DeviceStatusFragment.java
+===================================================================
+--- app/src/main/java/com/example/yoons/room/DeviceStatusFragment.java	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ app/src/main/java/com/example/yoons/room/SelectDeviceFragment.java	(date 1527256626876)
+@@ -1,19 +1,132 @@
+ package com.example.yoons.room;
+ 
++import android.net.Uri;
+ import android.os.Bundle;
+ import android.support.v4.app.Fragment;
++import android.support.v7.widget.LinearLayoutManager;
++import android.support.v7.widget.RecyclerView;
+ import android.view.LayoutInflater;
++import android.view.MenuItem;
+ import android.view.View;
+ import android.view.ViewGroup;
+ 
++import com.google.firebase.database.ChildEventListener;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
++
++import java.util.ArrayList;
++import java.util.List;
++
+ /**
+  * Created by yoons on 28/03/2018.
+  */
+ 
+-public class DeviceStatusFragment extends Fragment {
+-    @Override
+-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+-        // Declare your first fragment here
+-        return inflater.inflate(R.layout.device_setup_fragment_layout, container, false);
++public class SelectDeviceFragment extends Fragment {
++
++    private RecyclerView recyclerView;
++    private List<Device> deviceList;
++    private DeviceRecyclerViewAdapter adapter;
++
++    private DatabaseReference databaseReference;
++    private FirebaseDatabase firebaseDatabase;
++
++    private void updateList()
++    {
++        firebaseDatabase = FirebaseDatabase.getInstance();
++        databaseReference = firebaseDatabase.getReference("MyDevice");
++
++        databaseReference.addChildEventListener(new ChildEventListener() {
++            @Override
++            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
++                deviceList.add(dataSnapshot.getValue(Device.class));
++                adapter.notifyDataSetChanged();
++            }
++
++            @Override
++            public void onChildChanged(DataSnapshot dataSnapshot, String s)
++            {
++                Device device = dataSnapshot.getValue(Device.class);
++
++                int index = getItemindex(device);
++
++                deviceList.set(index,device);
++                adapter.notifyItemChanged(index);
++            }
++
++            @Override
++            public void onChildRemoved(DataSnapshot dataSnapshot)
++            {
++                Device device = dataSnapshot.getValue(Device.class);
++
++                int index = getItemindex(device);
++
++                deviceList.remove(index);
++                adapter.notifyItemRemoved(index);
++            }
++
++            @Override
++            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
++
++            }
++
++            @Override
++            public void onCancelled(DatabaseError databaseError) {
++
++            }
++        });
+     }
++
++    private int getItemindex(Device device)
++    {
++        int index = -1;
++
++        for(int i=0;i<deviceList.size();i++)
++        {
++            if(deviceList.get(i).getDeviceType().equals(device.getDeviceType()))
++            {
++                index = i;
++                break;
++            }
++        }
++        return index;
++    }
++
++    @Override
++    public boolean onContextItemSelected(MenuItem item)
++    {
++        switch (item.getItemId())
++        {
++            case 0:
++                break;
++            case 1:
++                break;
++        }
++
++        return super.onContextItemSelected(item);
++    }
++
++    @Override
++    public View onCreateView(LayoutInflater inflater, ViewGroup container,
++                             Bundle savedInstanceState)
++    {
++        View view = inflater.inflate(R.layout.device_setup_fragment_layout, container, false);
++        deviceList = new ArrayList<>();
++
++        recyclerView = (RecyclerView) view.findViewById(R.id.listViewinSelectDevice);
++        recyclerView.setHasFixedSize(true);
++        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
++        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
++
++        recyclerView.setLayoutManager(linearLayoutManager);
++
++        adapter = new DeviceRecyclerViewAdapter(deviceList);
++        recyclerView.setAdapter(adapter);
++
++        updateList();
++
++        return view;
++    }
++
+ }
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ app/build.gradle	(date 1527238711446)
+@@ -20,11 +20,20 @@
+ 
+ dependencies {
+     implementation fileTree(dir: 'libs', include: ['*.jar'])
++    implementation 'com.squareup.picasso:picasso:2.71828'
++    compile 'org.parceler:parceler-api:1.1.6'
++    annotationProcessor 'org.parceler:parceler:1.1.6'
++    compile 'com.google.firebase:firebase-core:12.0.1'
++    compile 'com.google.firebase:firebase-database:12.0.1'
++    compile 'com.google.firebase:firebase-auth:12.0.1'
+     implementation 'com.android.support:appcompat-v7:27.1.0'
+     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+     implementation 'com.android.support:design:27.1.0'
+     implementation 'com.android.support:recyclerview-v7:27.1.0'
++    implementation 'com.android.support:cardview-v7:27.1.0'
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'com.android.support.test:runner:1.0.1'
+     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
++
+ }
++apply plugin: 'com.google.gms.google-services'
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ app/src/main/AndroidManifest.xml	(date 1523563261950)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="com.example.yoons.room">
++        package="com.example.yoons.room">
+ 
+     <application
+         android:allowBackup="true"
+Index: app/src/main/java/com/example/yoons/room/MainRemoteFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/yoons/room/MainRemoteFragment.java	(date 1527251483380)
++++ app/src/main/java/com/example/yoons/room/MainRemoteFragment.java	(date 1527251483380)
+@@ -0,0 +1,333 @@
++package com.example.yoons.room;
++
++import android.os.Bundle;
++import android.support.v4.app.Fragment;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.graphics.Color;
++import android.os.Bundle;
++import android.view.View;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
++import com.google.firebase.database.ValueEventListener;
++
++import java.util.HashMap;
++
++
++/**
++ * Created by yoons on 28/03/2018.
++ */
++
++public class MainRemoteFragment extends Fragment {
++
++    DatabaseReference currentReference,mydeviceReference;
++    FirebaseDatabase firebaseDatabase;
++    private String powerStatus;
++    private String setRemoteUpDownReference;
++    private int uniqueValue;
++    private int horizontal;
++    private int vertical;
++    private int menu;
++    private int mode;
++    private int ok;
++    private int power;
++    private int source;
++
++    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
++        View view = inflater.inflate(R.layout.recent_device_fragment_layout, container, false);
++        Bundle bundle = getArguments();
++
++        final String deviceType = bundle.getString("deviceType");
++        String deviceBrand = bundle.getString("deviceBrand");
++        String deviceVersion = bundle.getString("deviceVersion");
++        final String deviceUID = bundle.getString("deviceUID");
++
++        TextView deviceBrandinRemote = view.findViewById(R.id.deviceBrandinRemote);
++        TextView deviceTypeinRemote = view.findViewById(R.id.deviceTypeinRemote);
++        final TextView powerStatusTextView = view.findViewById(R.id.powerStatusinRemote);
++        final TextView uniqueStatus = view.findViewById(R.id.otherStatusinRemote);
++
++        TextView menuButton = view.findViewById(R.id.menuButtoninRemote);
++        TextView videoButton = view.findViewById(R.id.videoButtoninRemote);
++        TextView okButton = view.findViewById(R.id.okButtoninRemote);
++
++        ImageView powerButton = view.findViewById(R.id.powerButtoninRemote);
++        ImageView upButton = view.findViewById(R.id.upButtoninRemote);
++        ImageView downButton = view.findViewById(R.id.downButtoninRemote);
++        ImageView leftButton = view.findViewById(R.id.leftButtoninRemote);
++        ImageView rightButton = view.findViewById(R.id.rightButtoninRemote);
++
++        firebaseDatabase = FirebaseDatabase.getInstance();
++        currentReference = firebaseDatabase.getReference("TempUnit").child("CurrentRemote");
++        mydeviceReference = firebaseDatabase.getReference("MyDevice");
++
++        currentReference.child("Device").child("Type").setValue(deviceType);
++        currentReference.child("Device").child("Brand").setValue(deviceBrand);
++        currentReference.child("Device").child("Version").setValue(deviceVersion);
++
++        setRemoteUpDownReference = "Vertical";
++
++        powerButton.setColorFilter(Color.WHITE);
++        upButton.setColorFilter(Color.WHITE);
++        downButton.setColorFilter(Color.WHITE);
++        leftButton.setColorFilter(Color.WHITE);
++        rightButton.setColorFilter(Color.WHITE);
++
++
++
++
++
++        deviceBrandinRemote.setText(deviceBrand);
++        deviceTypeinRemote.setText(deviceType);
++
++        mydeviceReference.child(deviceUID).child("Status").child("Power").addValueEventListener(new ValueEventListener() {
++            @Override
++            public void onDataChange(DataSnapshot dataSnapshot)
++            {
++                powerStatus = dataSnapshot.getValue(String.class);
++                powerStatusTextView.setText("Power: " + powerStatus);
++                System.out.println(powerStatus);
++            }
++
++            @Override
++            public void onCancelled(DatabaseError databaseError)
++            {
++
++            }
++        });
++
++        currentReference.child("RemoteCount").orderByKey().startAt("Horizontal").endAt("Vertical").addValueEventListener(new ValueEventListener() {
++            @Override
++            public void onDataChange(DataSnapshot dataSnapshot) {
++                for(DataSnapshot child : dataSnapshot.getChildren()) {
++                    HashMap<Integer, Integer> value = (HashMap<Integer, Integer>) child.getValue();
++                    horizontal = value.get("Horizontal");
++                    menu = value.get("Menu");
++                    mode = value.get("Mode");
++                    ok = value.get("OK");
++                    power = value.get("Power");
++                    source = value.get("Source");
++                    vertical = value.get("Vertical");
++                } }
++
++            @Override
++            public void onCancelled(DatabaseError databaseError) {
++
++            }
++        });
++
++        uniqueStatus.setText("");
++
++        if (deviceType.equals("Television")||deviceType.equals("Airconditioner")){
++            mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).addValueEventListener(new ValueEventListener() {
++                @Override
++                public void onDataChange(DataSnapshot dataSnapshot) {
++                    uniqueValue = dataSnapshot.getValue(int.class);
++
++                    switch (deviceType) {
++                        case "Airconditioner":
++                            uniqueStatus.setText(uniqueValue+"°C");
++                            break;
++                        case "Television":
++                            uniqueStatus.setText(uniqueValue+"");
++                            break;
++                    }
++                }
++
++
++                @Override
++                public void onCancelled(DatabaseError databaseError) {
++
++                }
++            });
++        }
++
++        powerButton.setOnClickListener(new View.OnClickListener()
++        {
++            @Override
++            public void onClick(View v)
++            {
++                currentReference.child("Status").child("Power").setValue(power++);
++            }
++        });
++
++        upButton.setOnClickListener(new View.OnClickListener()
++        {
++            int upValue;
++
++            @Override
++            public void onClick(View v)
++            {
++                currentReference.child("Status").child(setRemoteUpDownReference).setValue(vertical++);
++                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).addListenerForSingleValueEvent(new ValueEventListener() {
++                    @Override
++                    public void onDataChange(DataSnapshot dataSnapshot) {
++                        if(deviceType.equals("Television")||deviceType.equals("Airconditioner"))
++                        {
++                            upValue = dataSnapshot.getValue(int.class);
++                            upValue++;
++                            System.out.println(deviceType+":"+upValue);
++                            if(deviceType.equals("Airconditioner") &&upValue>=30) {
++                                System.out.println(upValue);
++                                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).setValue(30);
++                            }
++                            else if(deviceType.equals("Television") &&upValue>=100) {
++                                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).setValue(100);
++                            }
++                            else
++                            {
++                                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).setValue(upValue);
++                            }
++                        }
++                        else
++                            System.out.println("Nope LuL");
++                    }
++
++                    @Override
++                    public void onCancelled(DatabaseError databaseError) {
++
++                    }
++                });
++            }
++        });
++
++        downButton.setOnClickListener(new View.OnClickListener()
++        {
++            int downValue;
++            @Override
++            public void onClick(View v)
++            {
++
++                currentReference.child("Status").child(setRemoteUpDownReference).setValue(vertical--);
++                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).addListenerForSingleValueEvent(new ValueEventListener() {
++                    @Override
++                    public void onDataChange(DataSnapshot dataSnapshot) {
++                        if(deviceType.equals("Television")||deviceType.equals("Airconditioner"))
++                        {
++                            downValue = dataSnapshot.getValue(int.class);
++                            downValue--;
++                            System.out.println(deviceType+":"+downValue);
++                            if(deviceType.equals("Airconditioner") &&downValue<=15) {
++                                System.out.println(downValue);
++                                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).setValue(15);
++                            }
++                            else if(deviceType.equals("Television") &&downValue<=0) {
++                                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).setValue(0);
++                            }
++                            else
++                            {
++                                mydeviceReference.child(deviceUID).child("Status").child(setRemoteUpDownReference).setValue(downValue);
++                            }
++                        }
++                        else
++                            System.out.println("Nope LuL");
++                    }
++
++                    @Override
++                    public void onCancelled(DatabaseError databaseError) {
++
++                    }
++                });
++            }
++        });
++
++        rightButton.setOnClickListener(new View.OnClickListener()
++        {
++            int upValue;
++            @Override
++            public void onClick(View v)
++            {
++                if(deviceType.equals("Television")){
++                    currentReference.child("Status").child("Volume").setValue(horizontal++);
++                    mydeviceReference.child(deviceUID).child("Status").child("Volume").addListenerForSingleValueEvent(new ValueEventListener() {
++                        @Override
++                        public void onDataChange(DataSnapshot dataSnapshot)
++                        {
++                            upValue = dataSnapshot.getValue(int.class);
++                            upValue++;
++                            System.out.println(deviceType+":"+upValue);
++                            if(upValue>=100) {
++                                mydeviceReference.child(deviceUID).child("Status").child("Volume").setValue(100);
++                            }
++                            else
++                            {
++                                mydeviceReference.child(deviceUID).child("Status").child("Volume").setValue(upValue);
++                            }
++                        }
++
++                        @Override
++                        public void onCancelled(DatabaseError databaseError) {
++
++                        }
++                    });
++                }
++                else
++                    System.out.println("Nope LuL");
++            }
++        });
++
++        leftButton.setOnClickListener(new View.OnClickListener()
++        {
++            int downValue;
++            @Override
++            public void onClick(View v)
++            {
++                if(deviceType.equals("Television")){
++                    currentReference.child("Status").child("Volume").setValue(horizontal--);
++                    mydeviceReference.child(deviceUID).child("Status").child("Volume").addListenerForSingleValueEvent(new ValueEventListener() {
++                        @Override
++                        public void onDataChange(DataSnapshot dataSnapshot) {
++                            downValue = dataSnapshot.getValue(int.class);
++                            downValue--;
++                            System.out.println(deviceType+":"+downValue);
++                            if(downValue<=0){
++                                System.out.println(downValue);
++                                mydeviceReference.child(deviceUID).child("Status").child("Volume").setValue(0);
++                            }
++                            else
++                            {
++                                mydeviceReference.child(deviceUID).child("Status").child("Volume").setValue(downValue);
++                            }
++                        }
++
++                        @Override
++                        public void onCancelled(DatabaseError databaseError) {
++
++                        }
++                    });
++                }
++                else
++                    System.out.println("Nope LuL");
++            }});
++
++        okButton.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                currentReference.child("Status").child("OK").setValue(ok++);
++            }
++        });
++
++        menuButton.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                currentReference.child("Status").child("Menu").setValue(menu++);
++            }
++        });
++
++        videoButton.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                currentReference.child("Status").child("Source").setValue(source++);
++            }
++        });
++
++    // Declare your first fragment here
++        return view;
++    }
++}
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/codeStyles/Project.xml	(date 1526977684872)
++++ .idea/codeStyles/Project.xml	(date 1526977684872)
+@@ -0,0 +1,29 @@
++<component name="ProjectCodeStyleConfiguration">
++  <code_scheme name="Project" version="173">
++    <Objective-C-extensions>
++      <file>
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Import" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Macro" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Typedef" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Enum" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Constant" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Global" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Struct" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="FunctionPredecl" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Function" />
++      </file>
++      <class>
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Property" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Synthesize" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="InitMethod" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="StaticMethod" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="InstanceMethod" />
++        <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="DeallocMethod" />
++      </class>
++      <extensions>
++        <pair source="cpp" header="h" fileNamingConvention="NONE" />
++        <pair source="c" header="h" fileNamingConvention="NONE" />
++      </extensions>
++    </Objective-C-extensions>
++  </code_scheme>
++</component>
+\ No newline at end of file
+Index: app/src/main/res/layout/recent_device_fragment_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/recent_device_fragment_layout.xml	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ app/src/main/res/layout/recent_device_fragment_layout.xml	(date 1523736011991)
+@@ -2,5 +2,13 @@
+ <android.support.constraint.ConstraintLayout
+     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+     android:layout_height="match_parent">
++    <android.support.v7.widget.RecyclerView
++        android:layout_width="fill_parent"
++        android:layout_height="fill_parent"
++        android:id="@+id/recyclerView"
++        android:layout_alignParentTop="true"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true">
++    </android.support.v7.widget.RecyclerView>
+ 
+ </android.support.constraint.ConstraintLayout>
+\ No newline at end of file
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>windows-1252
+===================================================================
+--- gradle/wrapper/gradle-wrapper.properties	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ gradle/wrapper/gradle-wrapper.properties	(date 1526977747051)
+@@ -1,6 +1,6 @@
+-#Mon Jan 22 13:21:05 ICT 2018
++#Tue May 22 15:29:07 ICT 2018
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-4.1-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-4.6-all.zip
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 66cd9d32c4a294136076dfeaa5b38ef3b9d8d2b1)
++++ build.gradle	(date 1526977746991)
+@@ -7,7 +7,8 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.0.0'
++        classpath 'com.google.gms:google-services:3.2.0'
++        classpath 'com.android.tools.build:gradle:3.2.0-alpha15'
+         
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+@@ -19,6 +20,9 @@
+     repositories {
+         google()
+         jcenter()
++        maven {
++            url "https://maven.google.com" // Google's Maven repository
++        }
+     }
+ }
+ 
+Index: app/src/main/java/com/example/yoons/room/DeviceRecyclerViewAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/yoons/room/DeviceRecyclerViewAdapter.java	(date 1527259774113)
++++ app/src/main/java/com/example/yoons/room/DeviceRecyclerViewAdapter.java	(date 1527259774113)
+@@ -0,0 +1,113 @@
++package com.example.yoons.room;
++
++import android.app.FragmentTransaction;
++import android.content.Intent;
++import android.os.Bundle;
++import android.support.v7.widget.RecyclerView;
++import android.view.ContextMenu;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.LinearLayout;
++import android.widget.TextView;
++
++
++import java.util.List;
++
++/**
++ * Created by yoons on 14/11/2017.
++ */
++
++public class DeviceRecyclerViewAdapter extends RecyclerView.Adapter<DeviceRecyclerViewAdapter.HomeRecyclerViewHolder>
++{
++    List<Device> deviceList;
++
++    public DeviceRecyclerViewAdapter(List<Device> deviceList){
++        this.deviceList = deviceList;
++    }
++
++    @Override
++    public HomeRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
++    {
++        return new HomeRecyclerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.device_recyclerview_items_layout,parent,false));
++    }
++
++    @Override
++    public void onBindViewHolder(final HomeRecyclerViewHolder holder, int position)
++    {
++        final Device device = deviceList.get(position);
++
++
++        holder.deviceBrand.setText(device.getDeviceBrand());
++        holder.deviceVersion.setText(device.getDeviceVersion());
++        switch (device.getDeviceType())
++        {
++            case "Television":
++                holder.deviceType.setImageResource(R.drawable.tvicon);
++                break;
++            case "AirConditioner":
++                holder.deviceType.setImageResource(R.drawable.airicon);
++                break;
++            case "Projector":
++                holder.deviceType.setImageResource(R.drawable.projectoricon);
++                break;
++        }
++
++        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener()
++        {
++            @Override
++            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
++            {
++                menu.add(holder.getAdapterPosition(),0,0,"edit");
++                menu.add(holder.getAdapterPosition(),1,0,"delete");
++
++                menu.getItem(1);
++            }
++
++        });
++
++        holder.homeScreenLayout.setOnClickListener(new View.OnClickListener()
++        {
++            @Override
++            public void onClick(View v)
++            {
++                MainRemoteFragment mainRemoteFragment = new MainRemoteFragment();
++                android.support.v4.app.FragmentTransaction fragmentTransaction = mainRemoteFragment.getActivity().getSupportFragmentManager().beginTransaction();
++                Bundle bundle = new Bundle();
++                bundle.putString("deviceType", device.getDeviceType());
++                bundle.putString("deviceBrand", device.getDeviceBrand());
++                bundle.putString("deviceVersion", device.getDeviceVersion());
++                bundle.putString("deviceUID",device.getUID());
++                //fragmentTransaction.replace()
++                fragmentTransaction.commit();
++            }
++        });
++    }
++
++
++    @Override
++    public int getItemCount()
++    {
++        return deviceList.size();
++    }
++
++    class HomeRecyclerViewHolder extends RecyclerView.ViewHolder
++    {
++        TextView deviceBrand;
++        TextView deviceVersion;
++        ImageView deviceType;
++        LinearLayout homeScreenLayout;
++
++
++        public HomeRecyclerViewHolder(View itemView)
++        {
++            super(itemView);
++
++            deviceBrand = itemView.findViewById(R.id.deviceBrandInRecyclerView);
++            deviceVersion = itemView.findViewById(R.id.deviceVersionInRecyclerView);
++            deviceType = itemView.findViewById(R.id.deviceTypeInRecyclerView);
++            homeScreenLayout = itemView.findViewById(R.id.device_recycler_layout);
++        }
++    }
++}
+Index: app/src/main/res/layout/remote_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/remote_layout.xml	(date 1527244245839)
++++ app/src/main/res/layout/remote_layout.xml	(date 1527244245839)
+@@ -0,0 +1,209 @@
++<?xml version="1.0" encoding="utf-8"?>
++<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:id="@+id/home_recycler_main_layout">
++
++    <ImageView
++        android:id="@+id/imageView3"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:scaleType="fitXY"
++        app:srcCompat="@drawable/bg_test3" />
++
++    <TextView
++        android:id="@+id/deviceBrandinRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignLeft="@+id/testDeviceVersioninFixed"
++        android:layout_alignStart="@+id/testDeviceVersioninFixed"
++        android:layout_below="@+id/testDeviceBrandinFixed"
++        android:layout_marginEnd="8dp"
++        android:layout_marginStart="8dp"
++        android:layout_marginTop="60dp"
++        android:text="TextView"
++        android:textAlignment="center"
++        android:textColor="@color/cardview_light_background"
++        android:textSize="24sp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/deviceTypeinRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginEnd="8dp"
++        android:layout_marginStart="8dp"
++        android:layout_marginTop="92dp"
++        android:text="TextView"
++        android:textColor="@color/cardview_light_background"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/powerStatusinRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignBaseline="@+id/textView12"
++        android:layout_alignBottom="@+id/textView12"
++        android:layout_marginEnd="8dp"
++        android:layout_marginStart="8dp"
++        android:layout_marginTop="108dp"
++        android:layout_toEndOf="@+id/textView12"
++        android:layout_toRightOf="@+id/textView12"
++        android:text="TextView"
++        android:textColor="@color/cardview_light_background"
++        android:textSize="18sp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/otherStatusinRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignBaseline="@+id/tempStatusinRemote"
++        android:layout_alignBottom="@+id/tempStatusinRemote"
++        android:layout_alignLeft="@+id/powerStatusinRemote"
++        android:layout_alignStart="@+id/powerStatusinRemote"
++        android:layout_marginEnd="8dp"
++        android:layout_marginStart="8dp"
++        android:layout_marginTop="172dp"
++        android:text="TextView"
++        android:textColor="@color/cardview_light_background"
++        android:textSize="72sp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <ImageView
++        android:id="@+id/powerButtoninRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true"
++        android:layout_below="@+id/powerStatusinRemote"
++        android:layout_marginStart="24dp"
++        android:layout_marginTop="28dp"
++        android:background="?android:attr/selectableItemBackground"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:srcCompat="@drawable/ic_power_settings_new_black_24dp" />
++
++    <ImageView
++        android:id="@+id/upButtoninRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/powerButtoninRemote"
++        android:layout_centerHorizontal="true"
++        android:layout_marginEnd="8dp"
++        android:layout_marginStart="8dp"
++        android:layout_marginTop="340dp"
++        android:background="?android:attr/selectableItemBackground"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:srcCompat="@drawable/ic_expand_less_black_24dp" />
++
++    <ImageView
++        android:id="@+id/leftButtoninRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/upButtoninRemote"
++        android:layout_marginStart="84dp"
++        android:layout_marginTop="404dp"
++        android:layout_toLeftOf="@+id/upButtoninRemote"
++        android:layout_toStartOf="@+id/upButtoninRemote"
++        android:background="?android:attr/selectableItemBackground"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
++
++    <ImageView
++        android:id="@+id/rightButtoninRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/upButtoninRemote"
++        android:layout_marginEnd="84dp"
++        android:layout_marginTop="404dp"
++        android:layout_toEndOf="@+id/upButtoninRemote"
++        android:layout_toRightOf="@+id/upButtoninRemote"
++        android:background="?android:attr/selectableItemBackground"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
++
++    <ImageView
++        android:id="@+id/downButtoninRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/rightButtoninRemote"
++        android:layout_marginEnd="8dp"
++        android:layout_marginStart="8dp"
++        android:layout_marginTop="468dp"
++        android:layout_toEndOf="@+id/leftButtoninRemote"
++        android:layout_toRightOf="@+id/leftButtoninRemote"
++        android:background="?android:attr/selectableItemBackground"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:srcCompat="@drawable/ic_expand_more_black_24dp" />
++
++    <TextView
++        android:id="@+id/okButtoninRemote"
++        android:layout_width="64dp"
++        android:layout_height="32dp"
++        android:layout_below="@+id/upButtoninRemote"
++        android:layout_marginEnd="8dp"
++        android:layout_marginStart="8dp"
++        android:layout_marginTop="420dp"
++        android:layout_toEndOf="@+id/leftButtoninRemote"
++        android:layout_toRightOf="@+id/leftButtoninRemote"
++        android:background="?android:attr/selectableItemBackground"
++        android:text="OK!"
++        android:textAlignment="center"
++        android:textColor="@color/cardview_light_background"
++        android:textSize="24sp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/menuButtoninRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_above="@+id/leftButtoninRemote"
++        android:layout_alignEnd="@+id/deviceBrandinRemote"
++        android:layout_alignRight="@+id/deviceBrandinRemote"
++        android:layout_marginStart="88dp"
++        android:layout_marginTop="372dp"
++        android:background="?android:attr/selectableItemBackground"
++        android:text="MENU"
++        android:textColor="@color/cardview_light_background"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/videoButtoninRemote"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignBaseline="@+id/menuButtoninRemote"
++        android:layout_alignBottom="@+id/menuButtoninRemote"
++        android:layout_alignEnd="@+id/rightButtoninRemote"
++        android:layout_alignRight="@+id/rightButtoninRemote"
++        android:layout_marginEnd="76dp"
++        android:layout_marginTop="372dp"
++        android:background="?android:attr/selectableItemBackground"
++        android:text="SOURCE"
++        android:textColor="@color/cardview_light_background"
++        android:textSize="14sp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++
++
++</android.support.constraint.ConstraintLayout>
+Index: app/google-services.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/google-services.json	(date 1523563276008)
++++ app/google-services.json	(date 1523563276008)
+@@ -0,0 +1,42 @@
++{
++  "project_info": {
++    "project_number": "226440863604",
++    "firebase_url": "https://room-54314.firebaseio.com",
++    "project_id": "room-54314",
++    "storage_bucket": "room-54314.appspot.com"
++  },
++  "client": [
++    {
++      "client_info": {
++        "mobilesdk_app_id": "1:226440863604:android:4806beb0e6aeda7a",
++        "android_client_info": {
++          "package_name": "com.example.yoons.room"
++        }
++      },
++      "oauth_client": [
++        {
++          "client_id": "226440863604-feb6ivmh3iflt62r77tqke4htq5aqjbr.apps.googleusercontent.com",
++          "client_type": 3
++        }
++      ],
++      "api_key": [
++        {
++          "current_key": "AIzaSyAhMhuSlmZ4hY1rmfxn3uJBPJmGSkZp41s"
++        }
++      ],
++      "services": {
++        "analytics_service": {
++          "status": 1
++        },
++        "appinvite_service": {
++          "status": 1,
++          "other_platform_oauth_client": []
++        },
++        "ads_service": {
++          "status": 2
++        }
++      }
++    }
++  ],
++  "configuration_version": "1"
++}
+\ No newline at end of file
+diff --git app/src/main/res/drawable-v24/airicon.png app/src/main/res/drawable-v24/airicon.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..892a3e0e743c53bc9b793b81c21cf0b2e0301797
+GIT binary patch
+literal 2970
+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
+
+diff --git app/src/main/res/drawable-v24/tvicon.png app/src/main/res/drawable-v24/tvicon.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8b2f4bf72b2d4b445de6d0fe55493d586bc1d04c
+GIT binary patch
+literal 934
+zc%17D@N?(olHy`uVBq!ia0vp^4Is?H0wgodS2_SGmUKs7M+SzC{oH>NS%G|oWRD<U
+z28Jp%pt=?YhF>7{FBlj~4Hy_+B``2p&0t^<FPO6{&;}^Ml;rL1!oaYqSJ?>2<1Fxq
+zEC$+i9fTR3G-g)-1=&kHeO=ifa`SNt3w-tRy93lz;_2cTQgQ3;9Q*9xK$*7t)xw_4
+zS{m1yyac~+TX=r-VO3WzEDAFJC~VR7;DM48>%p~7j_jqP?PZn<>-6+k9S?Ff1#Oi2
+zKV^r7iDe_-cNzH;wexk^i$2Y1e-c;JK0l?$@R&q$Pp0xz5xy6b{8ldt{b%gF_fpZH
+zpjOtkS#8@IB{DV|*GDhU;O|-YD^y~Idv(K~HPN*-E5k3dnXKi%Fn7l<&;Bnn!%m-Z
+zjJ>k3WGC0*l()<Bj>d1vuXFM@FRA^`FxyIK|K&}sLT|3Jzm<;lUeD;i{OgaPKg-k~
+zXJ<C7-;x$+R?dIHNTxw-K_Np_!!gDTMk)3MtQqtcm^Ah9mY~3A$HXsj3Ng#}UN*CT
+zBA*!c{`hgWrS}^o?{Xf`xT<t~{`I>hS(lb5YF*kEw!EP0%p$9opPn%29x7)<Gjruu
+zSM3EkSECln283nlW;Sm-aN|OdYOAf)`qre$OTWMNTKs+g#criI=e<`p|JeP*;cY=o
+zzI5&e8U5*BKF7k{)K%|v**&jS{$}ca-nPlRmT_Cp+jnhN?v{uB6CL-z-nIVtM}NEf
+zd7pLN`r=>i^h>$BY5l*x@M5dQeR9uk+kN+ckn`-Z|D&vPXN%Z>MEv=2>i2!s;)Wkl
+z*{%Ki*H&9@KV2{Q=Ea>8t_J$As|4<g-ntD;2f)N|S?M2>wNH?!O&a?RV3JfVag8WR
+zNi0dVN-jzTQVd20hUU74hPs9(AqJLKhCpPdZD43+U=UpOu?$5+ZhlH;S|x4`O6s1c
+yfEpx08iMoFO3D+9QW?t2%k?tzvWt@w3sUv+i_&MmvylQSV(@hJb6Mw<&;$U(n`!g_
+
+diff --git app/src/main/res/drawable-v24/projectoricon.png app/src/main/res/drawable-v24/projectoricon.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..4aab35c8030af1bbc92887e0a246eead188da610
+GIT binary patch
+literal 1889
+zc${@rX*Ao37yZRfETy5u(%5&B*lKAlMZ~^E#i2rCUuz4-RHRHXZ7G7(QfjGfC>az*
+zwWytj)-t7bs;G4=N2im1{Gaom5BJ@3-@Es`Z||kq+oE{5pj-d|@SrVB9T`me2@V!U
+z4bZ7JVi1d;v5heRG-iM=yjU3;hPQCE0f2ZphA$Za&VTwh0U#O<09!Z!(8~vaE8&Ih
+z4hD<?leZPh6aZ=-N+TJHGu#3j$=Edg6Ce|Xf>=hAJqm4O#=ZpR<%B3?apF<{fK453
+zYU~_4w^I-j3^5byPeg&WaI7^GK(nHHrRnc-T}F=$$z+m$DT%|x8fHN^bx!rSt`lbE
+zyrkJvehH!k5j0C<WdVP*UrsGa7B=NfH{udh3QH22qB|N+EbMrk?EW3oI?ud*5)iYo
+zW;h-h*+J9jD0%O%34Lf@_J3$S{@q4-)9Fi!v!0WgETyJD2%$<KmG3EJyua`4h}I+&
+zR%DgsI6k|3=;op!0wZP*bDU>gs=(>WCXD(<&j!V*L1890-r@s03R568iJiHdWDqhZ
+zfo(SM2g~o+dbN1f$s|ygIX|C%`knMIf%m3OLZGm+(@e;fWeB{Z?H_LBJ$V~jJ|``y
+z5sg7=^<7>u837@*H$uaGYb}yHCvD4!b}gJFkWGs=st6dvt|alvP!&J<IPMvrC-b-s
+zdnr|wkh5hbDWOqi`r^_tM*>0BAwuBoedStbirqPlvMOAIaeBk1T^m^{LQlWDihN?-
+zK*3g~FWoqM@Lc8A%(!T<%MUX(nNDiopH-15r??`!K>v{HO~kr=dA)1UEhKf^wc!JH
+zvB_>r71HshKqdWHNo}^SG;f-#%&U*2Bv)$_1I>F>hp(CzD1wG3I|L@CzR)Jn?@7ow
+zm<e{%P$_NgR!rXx$kS3q!r_-3p7W3sxR(O@>5^4bW?dW7AD{dMQ>P6CQDb<np$w1j
+z8xH}w;hr<}``7_XjGwo$q?5<?VW3uDC}t3k-J`njTTUZyz&z(H`IX2Cn>`UNmh#z!
+z1~Kjaq*_xXuJZh&x*-Kwj8KfsJbu;3(zMwNRMIlevLxIrKEQKVZd+-|U(jBMVixnB
+z_7e%3ij8@*fgMYyQKz4=m?7na<z`onH=fLFwc<PnmlbZBL}VO7gK{Xkrp(KDzLR$P
+zM%i|YN2~k^`%?}brWVa1_I2&Y-TAs(PiLfR<KrkH^}?B6NN5QD2Gdp>>U)HiB6b^$
+z)l#t6zM55$Be@$rFFvA9Hq;toKe)MiML&P0?#Qhk!+ZgD%^Ex{DZH9bI8GW!R_&eF
+zYitAc{WG;%BCxjFd;VGH*_hLMGftUJ3>h43Ado|IF1jPEzAJ<p<yHu?w$ML^j(Pf0
+zR$~7WZ(T(Cw)Su(*7!|$51M1XTq_nm>~UOZ^dQQNqjVON4FzAhoOT^{)q)*IM|nl7
+z?PX(XEzLJYXx*<pE7`<WL^s%QVxD)BsGuZ%oI8uYz;N%$90G>$-j%#L*RwP3gOnYQ
+znNM=z-dwiBgr~KriB62(0nZXTrml?qVDb>XT(hwENzjn(WjYn)!TqIq7Yb{=*2VrO
+z3Dp1Dzccag;?UCO&GI<anRL)SW^{C}AkUyNy(cAhY(djsk~w~`=(n=zwsxMmC-Uy8
+zI&(oiF5IL~Mvg_2-IBWf0q}q@F^~PEHjr_5w%go`OoV%Agm6fC-@_T9-UO*5(h;JL
+z(^#Ta<3Y@;0Ta~w$~OAOA1W_Ah!9$x@FE_R!On~M<3TA&aU@$jFmHb5pvp>_ERUh?
+z+&JRBemN9RC}-&udahPoZC&x3-Od8IcVm$lWd7zGx0c9upkU`ISyo%xCMw|8YagkQ
+zM`Ik@Jgk|Jt*JBDw-!pjxEHYOcsK8~GgArkBsX)G81^C<I{10F)q#f`ecfN`>9Bac
+z=^5<y8cG|`YeI)cLQM{APADtME)EA8XAVtbsdhO&Bgby#mzhiS^=02xUO-yB5|8C<
+zxk-d{AKUFo+@LS<;`;ZLh_~Ge)XZX^^Jh^`bJ@c$kA{xku0=lvTYfug#d<Yj8nB7@
+zZk1n?_)8mx{ai292FAV~U?9yCUk}jyYMq|@emA#(tF>F1>gF<e>IKzKzfenfb;J6(
+z=t+@Y8t<ySS4t@zB+*x>AGujqMbpL#Qil|aF`}J9&`0YMAo<v|-F;=l7XFffN7WZv
+z`%45Ba)bp=b4A#)po-o=we!QbvsGz892Is3mn7*H(yE*N#OnzLszuT&?iB6s5=L`b
+z=C^8Az8=P*AM6zk-9B!e{yzDix7mEM>4NX$hy3~>aP%PKo5)6)xkeGZqI~r55k3q8
+zkZ^>KDgvR3&~%3D>LKBJns8+}LJtlX@4UbAKY@@iLV$1Fe+PmW4LunFk)HvlFyAPm
+mSA-8hBofsELW3glUg17!VG(`>y9Q8(2|%0Kn%0}($o~R#1V{D&
+
