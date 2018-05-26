@@ -37,7 +37,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             default:
                 return "Recent Device";
             case 2:
-                return "Device Status";
+                return "Select Device";
         }
     }
 }

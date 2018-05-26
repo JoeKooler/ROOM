@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity
 // Adding fragments to a list
         List<Fragment> fragments = new Vector<>();
         fragments.add(Fragment.instantiate(this, DeviceSetupFragment.class.getName()));
-        fragments.add(Fragment.instantiate(this, RecentDeviceFragment.class.getName()));
-        fragments.add(Fragment.instantiate(this, DeviceStatusFragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, MainRemoteFragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, SelectDeviceFragment.class.getName()));
 // Attaching fragments into tabLayout with ViewPager
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(viewPager);

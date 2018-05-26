@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "226440863604",
+    "firebase_url": "https://room-54314.firebaseio.com",
+    "project_id": "room-54314",
+    "storage_bucket": "room-54314.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226440863604:android:4806beb0e6aeda7a",
+        "android_client_info": {
+          "package_name": "com.example.yoons.room"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226440863604-feb6ivmh3iflt62r77tqke4htq5aqjbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhMhuSlmZ4hY1rmfxn3uJBPJmGSkZp41s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
