@@ -1,4 +1,4 @@
-package com.example.yoons.room;
+package com.example.yoons.room.Activity;
 
 
 import android.support.design.widget.TabLayout;
@@ -6,6 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.yoons.room.Fragment.DeviceSetupFragment;
+import com.example.yoons.room.Fragment.MainRemoteFragment;
+import com.example.yoons.room.R;
+import com.example.yoons.room.Adapter.SectionPagerAdapter;
+import com.example.yoons.room.Fragment.SelectDeviceFragment;
 
 import java.util.List;
 import java.util.Vector;

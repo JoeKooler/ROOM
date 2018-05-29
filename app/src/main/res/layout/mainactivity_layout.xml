@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="com.example.yoons.room.MainActivity">
+    tools:context="com.example.yoons.room.Activity.MainActivity">
 
     <!-- Declare android.support.v7.widget.Toolbar or... here -->
 
@@ -14,10 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorColor="#3F51B5"/>
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
     <android.support.v4.view.ViewPager
         android:id="@+id/my_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/my_tab_layout"/>
+
+    </FrameLayout>
 
 </LinearLayout>

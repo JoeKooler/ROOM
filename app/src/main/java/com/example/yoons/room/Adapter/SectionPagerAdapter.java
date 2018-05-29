@@ -1,4 +1,4 @@
-package com.example.yoons.room;
+package com.example.yoons.room.Adapter;
 
 /**
  * Created by yoons on 28/03/2018.

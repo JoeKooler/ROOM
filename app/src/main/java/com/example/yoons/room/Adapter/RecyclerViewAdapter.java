@@ -1,4 +1,4 @@
-package com.example.yoons.room;
+package com.example.yoons.room.Adapter;
 /**
  * Created by Juned on 8/9/2017.
  */
@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.yoons.room.R;
+import com.example.yoons.room.ValueClass.Device;
 
 import java.util.List;
 
@@ -38,11 +41,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Device deviceDetails = MainImageUploadInfoList.get(position);
 
-        holder.deviceType.setText(deviceDetails.getDeviceType());
+        holder.deviceType.setText(deviceDetails.getType());
 
-        holder.deviceBrand.setText(deviceDetails.getDeviceBrand());
+        holder.deviceBrand.setText(deviceDetails.getBrand());
 
-        //holder.deviceVersion.setText(deviceDetails.getDeviceVersion());
+        holder.deviceVersion.setText(deviceDetails.getVersion());
 
 
 

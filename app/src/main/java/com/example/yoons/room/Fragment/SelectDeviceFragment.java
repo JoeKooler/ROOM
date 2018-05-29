@@ -1,6 +1,5 @@
-package com.example.yoons.room;
+package com.example.yoons.room.Fragment;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.yoons.room.Adapter.DeviceRecyclerViewAdapter;
+import com.example.yoons.room.R;
+import com.example.yoons.room.ValueClass.Device;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,7 +51,7 @@ public class SelectDeviceFragment extends Fragment {
             {
                 Device device = dataSnapshot.getValue(Device.class);
 
-                int index = getItemindex(device);
+                int index = getItemIndex(device);
 
                 deviceList.set(index,device);
                 adapter.notifyItemChanged(index);
@@ -60,7 +62,7 @@ public class SelectDeviceFragment extends Fragment {
             {
                 Device device = dataSnapshot.getValue(Device.class);
 
-                int index = getItemindex(device);
+                int index = getItemIndex(device);
 
                 deviceList.remove(index);
                 adapter.notifyItemRemoved(index);
@@ -78,13 +80,13 @@ public class SelectDeviceFragment extends Fragment {
         });
     }
 
-    private int getItemindex(Device device)
+    private int getItemIndex(Device device)
     {
         int index = -1;
 
         for(int i=0;i<deviceList.size();i++)
         {
-            if(deviceList.get(i).getDeviceType().equals(device.getDeviceType()))
+            if(deviceList.get(i).getType().equals(device.getType()))
             {
                 index = i;
                 break;
@@ -111,10 +113,10 @@ public class SelectDeviceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.device_setup_fragment_layout, container, false);
+        View view = inflater.inflate(R.layout.device_select_fragment_layout, container, false);
         deviceList = new ArrayList<>();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.listViewinSelectDevice);
+        recyclerView = view.findViewById(R.id.listViewinSelectDevice);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
